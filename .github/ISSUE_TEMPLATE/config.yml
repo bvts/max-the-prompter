@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Antigravity documentation
+    url: https://www.antigravity.google/docs/plugins
+    about: Check the official plugin and skill documentation before reporting installation questions.

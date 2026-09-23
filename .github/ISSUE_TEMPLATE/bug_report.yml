@@ -1,0 +1,25 @@
+name: Bug report
+description: Report incorrect, broken, or misleading Max Prompter behavior
+title: "[Bug]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and what you expected instead.
+    validations:
+      required: true
+  - type: input
+    id: antigravity
+    attributes:
+      label: Antigravity version
+  - type: input
+    id: skill
+    attributes:
+      label: Skill or command
+      description: Example: max-prompter, constraints, council, ship
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the smallest useful reproduction, prompt, or project context.

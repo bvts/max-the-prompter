@@ -1,0 +1,5 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "max-prompter-antigravity",
+  "description": "Universal prompt architecture and project-orchestration skills for Antigravity: maximal implementation prompts, constraints, Council-of-5 pressure testing, design routing, context isolation, workspace skill installation, verification, review, reverse-engineering workflows with IDA Pro, and production shipping, plus an IDA Pro reverse-engineering session workflow."
+}

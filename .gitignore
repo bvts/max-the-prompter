@@ -1,0 +1,47 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Runtime / generated artifacts
+node_modules/
+dist/
+build/
+out/
+coverage/
+.tmp/
+.temp/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Antigravity / local agent state
+.gemini/
+.agents/local/
+
+# Generated council artifacts (keep the source skill, not local transcripts)
+council-report-*.html
+council-transcript-*.md
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS-specific local files
+*.log
+
+# Local reverse-engineering sessions and generated outputs
+.max-prompter/re/

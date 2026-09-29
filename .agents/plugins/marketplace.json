@@ -1,0 +1,21 @@
+{
+  "name": "max-the-prompter",
+  "interface": {
+    "displayName": "Max Prompter"
+  },
+  "plugins": [
+    {
+      "name": "max-the-prompter",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/bvts/max-the-prompter.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

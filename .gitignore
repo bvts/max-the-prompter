@@ -12,7 +12,7 @@ Desktop.ini
 # Runtime / generated artifacts
 node_modules/
 dist/
-build/
+/build/
 out/
 coverage/
 .tmp/

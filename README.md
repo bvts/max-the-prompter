@@ -1,13 +1,13 @@
-# Max Prompter for Antigravity
+# Max Prompter for Antigravity, ChatGPT, and Codex
 
-> **A universal prompt architect and project-orchestration skill pack for Google Antigravity.**
+> **A universal prompt architect and project-orchestration skill pack for Google Antigravity, ChatGPT, and Codex.**
 >
 > Turn rough ideas into detailed implementation prompts, establish a hard quality bar, pressure-test important decisions with a Council of Five, route work through specialist skills, verify the result, and prepare it for production.
 
-[![Validate](https://github.com/Tofu4K/max-the-prompter/actions/workflows/validate.yml/badge.svg)](https://github.com/Tofu4K/max-the-prompter/actions/workflows/validate.yml)
+[![Validate](https://github.com/bvts/max-the-prompter/actions/workflows/validate.yml/badge.svg)](https://github.com/bvts/max-the-prompter/actions/workflows/validate.yml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-> This repository is published at `https://github.com/Tofu4K/max-the-prompter`.
+> This repository is published at `https://github.com/bvts/max-the-prompter`.
 
 ---
 
@@ -39,7 +39,7 @@
 
 # What it is
 
-Max Prompter is an **Antigravity plugin containing multiple agent skills**.
+Max Prompter is a **cross-platform plugin containing multiple agent skills**. The same canonical skill files power Antigravity, ChatGPT, and Codex, so installing support for another host does not create a second implementation or change command behavior.
 
 It is built around a simple problem:
 
@@ -195,6 +195,8 @@ The project type changes what deserves depth.
 
 Before duplicating a workflow, Max Prompter looks for already-installed specialist skills.
 
+The repository uses the open Agent Skills layout: every command is defined once at `skills/<skill-name>/SKILL.md`. Antigravity loads those files through its root plugin manifest, while ChatGPT and Codex load the same directory through `.codex-plugin/plugin.json`.
+
 Antigravity skills are folders containing `SKILL.md`, with the skill description used for relevance detection and the full instructions loaded when a skill is activated. Current Antigravity documentation describes global skills under `~/.gemini/antigravity/skills/` and workspace skills under `<workspace>/.agents/skills/`. See the official documentation: https://www.antigravity.google/docs/ide/skills/ .
 
 Plugins are bundles that can contain skills, rules, MCP configuration, and hooks. Current Antigravity documentation describes `plugin.json` at the plugin root with skills under `skills/<skill-name>/SKILL.md`, plus workspace and global plugin locations. See: https://www.antigravity.google/docs/plugins .
@@ -278,6 +280,16 @@ The plugin ships these 15 skill commands:
 /skillinstall
 /re
 ```
+
+The host-specific invocation prefix is the only difference:
+
+| Host | Invocation example |
+| --- | --- |
+| Antigravity | `/max-prompter Build me a marketplace.` |
+| ChatGPT | `@max-prompter Build me a marketplace.` |
+| Codex | `$max-prompter Build me a marketplace.` |
+
+The command instructions, inputs, workflow, and output expectations come from the same `SKILL.md` file on every host. The `/...` examples below remain the Antigravity spelling; replace only the prefix when using ChatGPT or Codex.
 
 A detailed command reference is available in [`docs/COMMANDS.md`](docs/COMMANDS.md).
 
@@ -1389,7 +1401,55 @@ Max lists matching active programs, asks you to select the correct process when 
 
 # Installation
 
-Max Prompter is packaged as an Antigravity plugin.
+Max Prompter includes an Antigravity manifest and an additive ChatGPT/Codex compatibility manifest. Both discover the existing `skills/` directory.
+
+## ChatGPT and Codex plugin installation
+
+Add this repository as a plugin marketplace:
+
+```powershell
+codex plugin marketplace add bvts/max-the-prompter --ref main
+```
+
+Then restart the ChatGPT desktop app, open the **Plugins Directory**, choose the **Max Prompter** marketplace, and install **Max Prompter**. The same installation is available to supported Codex clients.
+
+From the CLI, the equivalent install command is:
+
+```powershell
+codex plugin add max-the-prompter@max-the-prompter
+```
+
+After installation:
+
+- in ChatGPT, invoke a skill with `@max-prompter`, `@prompt`, `@constraints`, and the other command names;
+- in Codex, invoke a skill with `$max-prompter`, `$prompt`, `$constraints`, and the other command names;
+- natural-language requests can also activate a matching skill when the host's automatic skill selection is enabled.
+
+To update the marketplace checkout later:
+
+```powershell
+codex plugin marketplace upgrade max-the-prompter
+```
+
+Restart the ChatGPT desktop app after installing or upgrading so it refreshes the plugin files.
+
+### Direct Codex skill installation
+
+If you do not want to use the plugin marketplace, clone the repository and copy or link the individual folders from `skills/` into a Codex skill location:
+
+```text
+<project-root>/.codex/skills/<skill-name>/SKILL.md
+```
+
+or the user-scoped location:
+
+```text
+~/.codex/skills/<skill-name>/SKILL.md
+```
+
+Keep each entire skill folder together. Do not rename `SKILL.md` or flatten multiple skills into one directory.
+
+## Antigravity installation
 
 ## Global plugin installation
 
@@ -1439,7 +1499,7 @@ New-Item -ItemType Directory -Force "$HOME\.gemini\config\plugins" | Out-Null
 Then clone the repository into that directory after publication:
 
 ```powershell
-git clone https://github.com/Tofu4K/max-the-prompter.git "$HOME\.gemini\config\plugins\max-prompter-antigravity"
+git clone https://github.com/bvts/max-the-prompter.git "$HOME\.gemini\config\plugins\max-prompter-antigravity"
 ```
 
 Restart Antigravity after installation or an update.
@@ -1492,6 +1552,8 @@ Then restart Antigravity and type `/` to inspect the loaded skills.
 
 ```text
 max-prompter-antigravity/
+├── .agents/plugins/marketplace.json
+├── .codex-plugin/plugin.json
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug_report.yml
@@ -1537,7 +1599,7 @@ max-prompter-antigravity/
 └── SECURITY.md
 ```
 
-The plugin manifest is intentionally minimal: a plugin root needs `plugin.json`, while skills are placed beneath `skills/<skill-name>/SKILL.md`. See the current Antigravity documentation for the full supported plugin surface.
+The Antigravity root manifest remains intentionally minimal. The additive `.codex-plugin/plugin.json` points ChatGPT and Codex at the same `skills/` directory, and `.agents/plugins/marketplace.json` makes the repository installable as a local/Git-backed marketplace. No command implementation is duplicated.
 
 ---
 
@@ -1561,6 +1623,8 @@ The validator checks:
 - skill names match directory names;
 - names follow lowercase-hyphenated conventions;
 - skill names are unique.
+- the ChatGPT/Codex compatibility manifest discovers `./skills/`;
+- the marketplace contains the `max-the-prompter` plugin entry.
 
 ## Edit a skill
 

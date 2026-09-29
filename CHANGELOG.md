@@ -2,6 +2,20 @@
 
 All notable changes to Max Prompter are documented here.
 
+## [0.3.1] - 2026-09-29
+
+### Added
+
+- Added a ChatGPT/Codex compatibility manifest that discovers the existing canonical `skills/` directory.
+- Added a Git-backed plugin marketplace catalog for installation in ChatGPT and Codex.
+- Added ChatGPT/Codex installation and invocation instructions to the README.
+- Added validation for the OpenAI compatibility files.
+- Restored the documented `/build` skill file, which was required by the existing validator and command inventory but absent from the repository.
+
+### Compatibility
+
+- Left all 15 existing skill implementations unchanged; Antigravity, ChatGPT, and Codex use the same `SKILL.md` files.
+
 ## [0.3.0] - 2026-09-23
 
 ### Added

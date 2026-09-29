@@ -10,6 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / "plugin.json"
+CODEX_PLUGIN = ROOT / ".codex-plugin" / "plugin.json"
+MARKETPLACE = ROOT / ".agents" / "plugins" / "marketplace.json"
 SKILLS = ROOT / "skills"
 
 
@@ -31,6 +33,30 @@ def main() -> int:
         fail("plugin.json must contain a non-empty name")
     if not isinstance(manifest.get("description"), str) or not manifest["description"].strip():
         fail("plugin.json must contain a non-empty description")
+
+    try:
+        codex_manifest = json.loads(CODEX_PLUGIN.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        fail(".codex-plugin/plugin.json is missing")
+    except json.JSONDecodeError as exc:
+        fail(f".codex-plugin/plugin.json is invalid JSON: {exc}")
+
+    if codex_manifest.get("skills") != "./skills/":
+        fail(".codex-plugin/plugin.json must discover the canonical ./skills/ directory")
+
+    try:
+        marketplace = json.loads(MARKETPLACE.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        fail(".agents/plugins/marketplace.json is missing")
+    except json.JSONDecodeError as exc:
+        fail(f".agents/plugins/marketplace.json is invalid JSON: {exc}")
+
+    plugins = marketplace.get("plugins")
+    if not isinstance(plugins, list) or not any(
+        isinstance(item, dict) and item.get("name") == "max-the-prompter"
+        for item in plugins
+    ):
+        fail("marketplace must contain the max-the-prompter plugin")
 
     if not SKILLS.is_dir():
         fail("skills/ directory is missing")
@@ -81,6 +107,7 @@ def main() -> int:
         fail("missing required Max Prompter skills: " + ", ".join(missing))
 
     print(f"PASS: {len(skill_dirs)} skills validated; plugin manifest is valid.")
+    print("PASS: ChatGPT/Codex compatibility manifest and marketplace are valid.")
     print("Skills:", ", ".join(sorted(seen)))
     return 0
 

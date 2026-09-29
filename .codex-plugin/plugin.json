@@ -1,0 +1,38 @@
+{
+  "name": "max-the-prompter",
+  "version": "0.3.1",
+  "description": "Universal prompt architecture and project-orchestration skills for ChatGPT and Codex.",
+  "author": {
+    "name": "bvts",
+    "url": "https://github.com/bvts"
+  },
+  "homepage": "https://github.com/bvts/max-the-prompter#readme",
+  "repository": "https://github.com/bvts/max-the-prompter",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "prompt-engineering",
+    "project-orchestration",
+    "codex",
+    "chatgpt"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Max Prompter",
+    "shortDescription": "Prompt architecture and project orchestration",
+    "longDescription": "Turn rough ideas into constrained, verifiable implementation plans and route work through focused build, test, review, and shipping workflows.",
+    "developerName": "bvts",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Prompting",
+      "Planning",
+      "Implementation",
+      "Verification"
+    ],
+    "websiteURL": "https://github.com/bvts/max-the-prompter",
+    "defaultPrompt": [
+      "Turn my idea into an execution-ready implementation prompt.",
+      "Plan and verify this project from requirements through shipping."
+    ]
+  }
+}
